@@ -27,14 +27,20 @@ function deleteTodo(event){
     // console.log(event.target.parentElement);
     const li = event.target.parentElement;
     // const li 아래에 있는데 상관 없는 건가?
-    console.log(li.id);
+    // console.log(li.id);
     li.remove();
-};
+    // todos = todos.filter((todo) => todo.id !== li.id)
+    // 이 대로 하면 안지워짐
+    // 왜냐? li.id 는 string임 
+    todos = todos.filter((todo) => todo.id !== parseInt(li.id));
+    // todos.id 값을 newTodoObj에서 만들어서 알 수 있는건가?
+    saveTodos();
+};  
 
 function paintTodo(newTodo) {
     const li = document.createElement("li");
     li.id = newTodo.id;
-    // 이렇게 쓰면 어떻게 알아 먹는거지..?
+     
     const span = document.createElement("span");
     span.innerText = newTodo.text;
     const button = document.createElement("button");
@@ -80,6 +86,7 @@ const savedTodos = localStorage.getItem(TODOS_KEY);
 
 if(savedTodos !== null) {
     const parsedTodos = JSON.parse(savedTodos);
+    // parse 메소드는 string 객체를 json 객체로 변환시켜준다
     // console.log(parsedTodos);
     // array라서 forEach 쓸 수 있음
     // forEach()는 function을 실행하게 해주는데 array에 있는 각각의 item에 대해서 실행시켜줌!
@@ -92,3 +99,28 @@ if(savedTodos !== null) {
 }
 
 
+
+// Filter 쓰는 방법
+// function sexyFilter(item){return item !== 3}
+// [1,2,3,4,5].filter(sexyFilter)
+// (4) [1,2,4,5]
+
+// const arr = ["pizza", "banana", "tomato"]
+// function sexyFilter(food){return food !== "banana"}
+// arr.filter(sexyfilter)
+// (2) ["pizza", "tomato"]
+
+// const arr = [1245, 5600, 34, 7891, 12, 500]
+// function sexyFilter(potato){return potato <=1000}
+// arr.filter(sexyFilter)
+// (3) [1245, 5600, 7891]
+
+// const arr = [1,2,3,4]
+// arr.filter(item => item > 2)
+// (2) [3,4]
+// arr
+// (4) [1,2,3,4]
+// newArr
+// (2) [3,4]
+
+// filter가 기존 arr 배열을 바꾸진 않음!
